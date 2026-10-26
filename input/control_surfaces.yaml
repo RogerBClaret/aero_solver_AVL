@@ -1,0 +1,17 @@
+# Span locations are fractions of the semi-span (root=0, tip=1).
+# Hinge positions are fractions of local chord measured from leading edge.
+# Controls require extra wing sections at their span boundaries.
+control_surfaces:
+  - name: inboard
+    surface: wing
+    span: {start: 0.15, end: 0.37}
+    hinge: {root_chord_fraction: 0.75, tip_chord_fraction: 0.75}
+    gain: 1.0
+    duplicate_sign: 1.0  # same deflection on both sides
+
+  - name: aileron
+    surface: wing
+    span: {start: 0.75, end: 0.95}
+    hinge: {root_chord_fraction: 0.75, tip_chord_fraction: 0.75}
+    gain: 1.0
+    duplicate_sign: -1.0 # opposite deflections left/right

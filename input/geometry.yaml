@@ -1,0 +1,24 @@
+# Coordinates in metres; angles in degrees.
+# Symmetric wing: sections define the right semi-span (y >= 0).
+geometry:
+  name: main_wing
+  symmetric: false
+  reference:
+    area: 15.0         # m^2, full wing
+    span: 10.0         # m, full wing
+    chord: 1.555556    # m, mean aerodynamic chord
+    point: [0.5, 0.0, 0.0]  # m, moment reference point
+
+surfaces:
+  - name: wing
+  #   airfoil:
+  #     type: flat_plate
+    airfoil:
+      type: file
+      path: "input/airfoils/naca653218.dat"  
+    # airfoil:
+    #   type: naca
+    #   code: "0012"
+    sections:
+      - {y: 0.0, x_le: 0.0, z_le: 0.0, chord: 2.0, twist: 0.0}
+      - {y: 5.0, x_le: 1.5, z_le: 0.5, chord: 1.0, twist: -2.0}

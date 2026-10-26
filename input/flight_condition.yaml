@@ -1,0 +1,20 @@
+
+flight_condition:
+
+  velocity: 100.0      # m/s
+  density: 1.225        # kg/m³
+
+  # Fixed operating conditions
+  alpha: 5.0           # degrees
+
+  controls:
+    inboard: 0.0       # degrees
+    aileron: 0.0       # degrees
+
+  # Optional AVL trim
+  # Set enabled: true for ONE trim condition.
+  trim:
+    enabled: false
+    variable: alpha     # alpha | inboard | aileron
+    constraint: CL      # e.g. CL, Cm, Cl
+    target: 0.5
