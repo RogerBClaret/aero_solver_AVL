@@ -274,7 +274,6 @@ def main():
     # Generate geometry and aerodynamic distribution plots.
     plot_all(
         geometry_data,
-        mesh_data,
         controls_data,
         flight_data,
         results,
@@ -283,6 +282,9 @@ def main():
     print("\n Study case plots generated in output folder")
 
     header("MODEL TEST COMPLETED SUCCESSFULLY")
+
+    # AVL visualization
+    session.show_geometry()
 
 
 def main_short():
@@ -353,11 +355,13 @@ def main_short():
     # Generate geometry and aerodynamic distribution plots.
     plot_all(
         geometry_data,
-        mesh_data,
         controls_data,
         flight_data,
         results,
     )
+
+    # AVL visualization
+    session.show_geometry()
 
     # return totals
 

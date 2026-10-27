@@ -5,8 +5,8 @@
 # ============================================================
 
 mesh:
-  chordwise_panels: 10
-  spanwise_panels: 24
+  chordwise_panels: 20
+  spanwise_panels: 50
 
   # Chordwise distribution
   chord_spacing: cosine

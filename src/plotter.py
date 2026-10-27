@@ -52,75 +52,25 @@ def _wing_point(planform, sections, eta, xsi):
     )
 
 
-def _spacing(n, kind):
-    """Generate uniform or cosine-distributed coordinates."""
-
-    t = np.linspace(0.0, 1.0, n + 1)
-
-    if kind == "cosine":
-        return 0.5 * (1.0 - np.cos(pi * t))
-
-    if kind == "uniform":
-        return t
-
-    raise ValueError(f"Unknown panel spacing: {kind}")
-
-
-def _panel_counts(stations, n_total):
-    """
-    Allocate spanwise panels across section intervals.
-
-    Each interval receives at least one panel.
-    Remaining panels are allocated approximately in
-    proportion to interval length.
-
-    This is a visualization allocation, not AVL's
-    exact internal panel allocation.
-    """
-
-    lengths = np.diff(stations)
-    intervals = len(lengths)
-
-    if n_total < intervals:
-        raise ValueError("Too few spanwise panels.")
-
-    counts = np.ones(intervals, dtype=int)
-    remaining = n_total - intervals
-
-    weights = remaining * lengths / lengths.sum()
-    counts += np.floor(weights).astype(int)
-
-    # Distribute any leftover panels.
-    leftover = n_total - counts.sum()
-    fractions = weights - np.floor(weights)
-
-    for idx in np.argsort(-fractions)[:leftover]:
-        counts[idx] += 1
-
-    return counts
-
-
 # ============================================================
-# 2. PLOT WING MESH AND CONTROL SURFACES
+# 2. PLOT WING PLANFORM AND CONTROL SURFACES
 # ============================================================
 
-def plot_wing_mesh(
+
+def plot_wing_planform(
     geometry_data,
-    mesh_data,
     controls_data,
     output_dir=OUTPUT_DIR,
 ):
     """
-    Plot the right semi-wing in top view.
+    Plot the right semi-wing planform and control surfaces.
 
-    Includes:
+    Shows:
     - Leading and trailing edges
-    - Aerodynamic panel grid
-    - Control-surface regions and hinge lines
+    - Flap and aileron regions
+    - Control-surface hinge lines
 
-    Excludes:
-    - Wing section markers
-    - Wing section labels
+    No mesh or wing-section lines are drawn.
     """
 
     output_dir = Path(output_dir)
@@ -129,87 +79,35 @@ def plot_wing_mesh(
     wing = geometry_data["surfaces"][0]
     planform = wing["planform"]
     sections = validate_sections(wing["sections"])
-    mesh = mesh_data["mesh"]
     controls = controls_data.get("control_surfaces", [])
 
-    nc = int(mesh["chordwise_panels"])
-    ns = int(mesh["spanwise_panels"])
+    fig, ax = plt.subplots(figsize=(11, 5))
 
-    # Mesh boundaries include control-surface endpoints.
-    stations = {float(s["y"]) for s in sections}
-
-    for control in controls:
-        stations.add(float(control["span"]["start"]))
-        stations.add(float(control["span"]["end"]))
-
-    stations = np.array(sorted(stations))
-    counts = _panel_counts(stations, ns)
-
-    # Assemble normalized spanwise mesh boundaries.
-    eta_grid = []
-
-    for i, count in enumerate(counts):
-        local = _spacing(count, mesh["span_spacing"])
-
-        eta = stations[i] + (
-            stations[i + 1] - stations[i]
-        ) * local
-
-        if i > 0:
-            eta = eta[1:]
-
-        eta_grid.extend(eta)
-
-    eta_grid = np.asarray(eta_grid)
-    xsi_grid = _spacing(nc, mesh["chord_spacing"])
-
-    fig, ax = plt.subplots(figsize=(12, 5.5))
-
-    # Wing outline.
-    eta_smooth = np.linspace(0, 1, 250)
+    # --------------------------------------------------------
+    # 1. Wing outline
+    # --------------------------------------------------------
+    eta = np.linspace(0.0, 1.0, 300)
 
     leading = np.array([
-        _wing_point(planform, sections, eta, 0.0)
-        for eta in eta_smooth
+        _wing_point(planform, sections, e, 0.0)
+        for e in eta
     ])
 
     trailing = np.array([
-        _wing_point(planform, sections, eta, 1.0)
-        for eta in eta_smooth
+        _wing_point(planform, sections, e, 1.0)
+        for e in eta
     ])
 
-    polygon = np.vstack((leading, trailing[::-1]))
+    outline = np.vstack((leading, trailing[::-1]))
 
     ax.fill(
-        polygon[:, 1], polygon[:, 0],
-        color="0.94", zorder=0
+        outline[:, 1], outline[:, 0],
+        color="0.90", zorder=1
     )
 
-    # Chordwise panel boundaries.
-    for xsi in xsi_grid:
-        points = np.array([
-            _wing_point(planform, sections, eta, xsi)
-            for eta in eta_grid
-        ])
-
-        ax.plot(
-            points[:, 1], points[:, 0],
-            color="0.72", lw=0.65, zorder=1
-        )
-
-    # Spanwise panel boundaries.
-    for eta in eta_grid:
-        points = np.array([
-            _wing_point(planform, sections, eta, xsi)
-            for xsi in xsi_grid
-        ])
-
-        ax.plot(
-            points[:, 1], points[:, 0],
-            color="0.72", lw=0.65, zorder=1
-        )
-
-    # Control-surface overlays.
+    # --------------------------------------------------------
+    # 2. Control surfaces
+    # --------------------------------------------------------
     colors = ["tab:blue", "tab:orange", "tab:green"]
 
     for i, control in enumerate(controls):
@@ -223,131 +121,75 @@ def plot_wing_mesh(
             control["hinge"]["tip_chord_fraction"]
         )
 
-        eta = np.linspace(start, end, 80)
-        hinge_fraction = np.linspace(h0, h1, 80)
+        eta_ctrl = np.linspace(start, end, 100)
+        hinge_fraction = np.linspace(h0, h1, 100)
 
         hinge = np.array([
             _wing_point(planform, sections, e, h)
-            for e, h in zip(eta, hinge_fraction)
+            for e, h in zip(eta_ctrl, hinge_fraction)
         ])
 
-        trailing_control = np.array([
+        trailing_ctrl = np.array([
             _wing_point(planform, sections, e, 1.0)
-            for e in eta
+            for e in eta_ctrl
         ])
 
         region = np.vstack((
             hinge,
-            trailing_control[::-1]
+            trailing_ctrl[::-1]
         ))
 
         color = colors[i % len(colors)]
 
         ax.fill(
             region[:, 1], region[:, 0],
-            color=color, alpha=0.35,
+            color=color,
+            alpha=0.45,
             label=control["name"],
             zorder=2,
         )
 
         ax.plot(
             hinge[:, 1], hinge[:, 0],
-            color=color, lw=2.0, zorder=3
+            color=color,
+            linewidth=1.8,
+            zorder=3,
         )
 
-    # Draw outer wing boundary above mesh and controls.
-    ax.plot(
-        leading[:, 1], leading[:, 0],
-        color="black", lw=1.6
-    )
+    # --------------------------------------------------------
+    # 3. External wing boundaries only
+    # --------------------------------------------------------
+    closed = np.vstack((outline, outline[0]))
 
     ax.plot(
-        trailing[:, 1], trailing[:, 0],
-        color="black", lw=1.6
+        closed[:, 1], closed[:, 0],
+        color="black",
+        linewidth=1.5,
+        zorder=4,
     )
 
-    for eta in (0.0, 1.0):
-        points = np.array([
-            _wing_point(planform, sections, eta, xsi)
-            for xsi in (0.0, 1.0)
-        ])
-
-        ax.plot(
-            points[:, 1], points[:, 0],
-            color="black", lw=1.6
-        )
-
-    ax.set_title("Right semi-wing | mesh and controls")
+    # --------------------------------------------------------
+    # 4. Plot formatting
+    # --------------------------------------------------------
+    ax.set_title("Right semi-wing | planform and controls")
     ax.set_xlabel("Spanwise position Y [m]")
     ax.set_ylabel("Chordwise position X [m]")
 
-    # Equal scale is important for planform inspection.
     ax.set_aspect("equal", adjustable="box")
     ax.invert_yaxis()
-
     ax.grid(alpha=0.15)
-    ax.legend(loc="best")
+
+    if controls:
+        ax.legend(loc="best")
 
     fig.tight_layout()
 
-    path = output_dir / "01_wing_mesh.png"
+    path = output_dir / "01_wing_planform.png"
     fig.savefig(path, dpi=250, bbox_inches="tight")
     plt.close(fig)
 
     print(f"[SAVED] {path}")
     return path
-
-
-# ============================================================
-# 3. EXTRACT AVL STRIP DATA
-# ============================================================
-
-def _extract_strip_data(results, surface_name="wing"):
-    """
-    Extract one wing's strip data from AVLWrapper.
-
-    Supports the legacy dictionary results structure and
-    the newer strip_forces result interface.
-    """
-
-    try:
-        case = results[1]
-    except (KeyError, IndexError, TypeError):
-        case = results["operating_point"]
-
-    if isinstance(case, dict):
-        strips = case.get("StripForces")
-    else:
-        strips = getattr(case, "strip_forces", None)
-
-        if strips is None:
-            strips = case["StripForces"]
-
-    if strips is None:
-        raise KeyError(
-            "No StripForces output found. Enable AVL "
-            "strip-force output in the solver session."
-        )
-
-    # Find the requested surface regardless of capitalization.
-    for name, data in strips.items():
-        if name.lower().strip() == surface_name.lower():
-            return data
-
-    raise KeyError(
-        f"Surface '{surface_name}' not found in strip forces. "
-        f"Available surfaces: {list(strips)}"
-    )
-
-
-def _strip_array(data, *keys):
-    """Read a strip quantity using supported AVL key aliases."""
-
-    for key in keys:
-        if key in data:
-            return np.asarray(data[key], dtype=float)
-
-    return None
 
 
 # ============================================================
@@ -459,12 +301,61 @@ def plot_distributions(
 
 
 # ============================================================
+# 4.1 EXTRACT AVL SPANWISE STRIP DATA
+# ============================================================
+
+def _extract_strip_data(results, surface_name="wing"):
+    """
+    Extract spanwise strip-force results for one AVL surface.
+
+    Handles the dictionary-based results returned by AVLWrapper.
+    """
+
+    # Retrieve the operating case.
+    try:
+        case = results[1]
+    except (KeyError, IndexError, TypeError):
+        case = results["operating_point"]
+
+    # Extract strip-force results.
+    if isinstance(case, dict):
+        strips = case.get("StripForces")
+    else:
+        strips = getattr(case, "strip_forces", None)
+
+    if strips is None:
+        raise KeyError(
+            "StripForces not found in AVL results. "
+            f"Available result keys: {list(case.keys())}"
+        )
+
+    # Find the requested wing surface.
+    for name, data in strips.items():
+        if name.strip().lower() == surface_name.strip().lower():
+            return data
+
+    raise KeyError(
+        f"Surface '{surface_name}' not found. "
+        f"Available surfaces: {list(strips.keys())}"
+    )
+
+
+def _strip_array(data, *keys):
+    """Extract an aerodynamic quantity using possible key names."""
+
+    for key in keys:
+        if key in data:
+            return np.asarray(data[key], dtype=float)
+
+    return None
+
+
+# ============================================================
 # 5. GENERATE ALL PLOTS
 # ============================================================
 
 def plot_all(
     geometry_data,
-    mesh_data,
     controls_data,
     flight_data,
     results,
@@ -474,9 +365,8 @@ def plot_all(
 
     print("\nGenerating AVL plots...")
 
-    mesh_path = plot_wing_mesh(
+    planform_path = plot_wing_planform(
         geometry_data,
-        mesh_data,
         controls_data,
         output_dir,
     )
@@ -490,4 +380,4 @@ def plot_all(
 
     print("[PASS] Plot generation complete.")
 
-    return mesh_path, distribution_path
+    return planform_path, distribution_path
