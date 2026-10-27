@@ -1,0 +1,92 @@
+
+# ============================================================
+# OPTIMIZATION DESIGN VARIABLES
+#
+# Uncomment a variable to include it in the optimization.
+# Commented variables remain fixed at their baseline values.
+#
+# Initial values are read from the original input YAML files.
+# Bounds are specified in SI units (angles in degrees).
+# ============================================================
+
+design_variables:
+
+  # ----------------------------------------------------------
+  # 1. WING PLANFORM
+  # ----------------------------------------------------------
+
+  # Wing length (semi-span) [m]
+  - {name: semi_span, bounds: [2.0, 8.0]}
+
+  # Root chord [m]
+  - {name: root_chord, bounds: [0.2, 2.0]}
+
+  # Leading-edge sweep [deg]
+  # - {name: sweep_le, bounds: [0.0, 40.0]}
+
+  # Dihedral angle [deg]
+  # - {name: dihedral, bounds: [-5.0, 15.0]}
+
+
+  # ----------------------------------------------------------
+  # 2. WING SECTIONS
+  # Section variables are identified using section_id.
+  # ----------------------------------------------------------
+
+  # Normalized span position [0,1]
+  # - {name: section_y, section_id: 1, bounds: [0.7, 1.0]}
+
+  # Local chord ratio (relative to root chord)
+  - {name: section_chord, section_id: 1, bounds: [0.2, 1.0]}
+
+  # Geometric twist [deg]
+  - {name: section_twist, section_id: 1, bounds: [-6.0, 2.0]}
+
+  # Additional sections can be specified independently,
+  # corresponding to the sections defined in the geometry.yaml file.
+  # - {name: section_chord, section_id: 2, bounds: [0.2, 1.0]}
+  # - {name: section_twist, section_id: 2, bounds: [-6.0, 2.0]}
+
+
+  # ----------------------------------------------------------
+  # 3. CONTROL SURFACES
+  # Identified using the control-surface name.
+  # ----------------------------------------------------------
+
+  # Flap span boundaries
+  # - {name: control_span_start, control: flap, bounds: [0.05, 0.30]}
+  # - {name: control_span_end, control: flap, bounds: [0.30, 0.60]}
+
+  # Flap hinge position
+  # - {name: control_hinge_root, control: flap, bounds: [0.60, 0.90]}
+  # - {name: control_hinge_tip, control: flap, bounds: [0.60, 0.90]}
+
+  # Aileron span boundaries
+  # - {name: control_span_start, control: aileron, bounds: [0.60, 0.85]}
+  # - {name: control_span_end, control: aileron, bounds: [0.85, 1.00]}
+
+  # Aileron hinge position
+  # - {name: control_hinge_root, control: aileron, bounds: [0.60, 0.90]}
+  # - {name: control_hinge_tip, control: aileron, bounds: [0.60, 0.90]}
+
+
+  # ----------------------------------------------------------
+  # 4. FLIGHT CONDITIONS
+  # Normally fixed, but can optionally be optimized.
+  # ----------------------------------------------------------
+
+  # Angle of attack [deg]
+  - {name: alpha, bounds: [-5.0, 15.0]}
+
+  # Flight velocity [m/s]
+  # - {name: velocity, bounds: [50.0, 200.0]}
+
+  # Air density [kg/m³]
+  # - {name: density, bounds: [0.3, 1.225]}
+
+  # Control-surface deflections [deg]
+  # - {name: control_deflection, control: flap, bounds: [-20.0, 20.0]}
+  # - {name: control_deflection, control: aileron, bounds: [-15.0, 15.0]}
+
+
+

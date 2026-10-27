@@ -1,0 +1,68 @@
+
+# ============================================================
+# OPTIMIZATION OBJECTIVE
+#
+# Uncomment ONE objective to activate it.
+# All other objectives must remain commented out.
+#
+# Supported directions:
+#   minimize : minimize the selected metric
+#   maximize : maximize the selected metric
+#
+# Metrics are calculated from AVL results and wing geometry.
+# SI units unless otherwise specified.
+# ============================================================
+
+objective:
+
+  # ----------------------------------------------------------
+  # 1. AERODYNAMIC DRAG
+  # ----------------------------------------------------------
+
+  # Minimize total dimensional drag [N]
+  - {name: min_drag, metric: drag, direction: minimize}
+
+  # Minimize induced drag force [N]
+  # - {name: min_induced_drag, metric: induced_drag, direction: minimize}
+
+  # Minimize total AVL drag coefficient [-]
+  # - {name: min_CD, metric: CD, direction: minimize}
+
+  # Minimize induced drag coefficient [-]
+  # - {name: min_CDi, metric: CDi, direction: minimize}
+
+
+  # ----------------------------------------------------------
+  # 2. AERODYNAMIC EFFICIENCY
+  # ----------------------------------------------------------
+
+  # Maximize AVL lift-to-drag ratio [-]
+  # - {name: max_LD, metric: LD, direction: maximize}
+
+  # Maximize span efficiency factor [-]
+  # - {name: max_efficiency, metric: e, direction: maximize}
+
+
+  # ----------------------------------------------------------
+  # 3. WING GEOMETRY
+  # ----------------------------------------------------------
+
+  # Minimize wing reference area [m²]
+  # - {name: min_area, metric: Sref, direction: minimize}
+
+  # Minimize full wingspan [m]
+  # - {name: min_span, metric: Bref, direction: minimize}
+
+  # Maximize aspect ratio [-]
+  # - {name: max_AR, metric: AR, direction: maximize}
+
+
+  # ----------------------------------------------------------
+  # 4. SPANWISE LOADING
+  # ----------------------------------------------------------
+
+  # Minimize root bending moment magnitude [N m]
+  # - {name: min_root_bending, metric: root_bending_moment,
+  #     direction: minimize}
+
+

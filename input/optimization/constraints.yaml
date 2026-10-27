@@ -1,0 +1,99 @@
+
+# ============================================================
+# OPTIMIZATION CONSTRAINTS
+#
+# Uncomment a constraint to activate it.
+# Commented constraints are ignored.
+#
+# Supported operators:
+#   <= : upper limit
+#   >= : lower limit
+#   == : equality condition
+#
+# SI units, angles in degrees.
+# All values below are illustrative.
+# ============================================================
+
+constraints:
+
+  # ----------------------------------------------------------
+  # 1. GEOMETRIC CONSTRAINTS
+  # Derived from the wing planform.
+  # ----------------------------------------------------------
+
+  # Maximum wingspan (2*semi span) [m]
+  - {name: max_span, metric: Bref, operator: <=, value: 8.0}
+
+  # Minimum wing area [m²]
+  # - {name: min_area, metric: Sref, operator: >=, value: 4.0}
+
+  # Maximum wing area [m²]
+  # - {name: max_area, metric: Sref, operator: <=, value: 10.0}
+
+  # Fixed wing area [m²]
+  # - {name: fixed_area, metric: Sref, operator: ==, value: 6.0}
+
+  # Aspect ratio
+  # - {name: min_AR, metric: AR, operator: >=, value: 8.0}
+  # - {name: max_AR, metric: AR, operator: <=, value: 18.0}
+
+  # Mean aerodynamic chord [m]
+  # - {name: min_MAC, metric: Cref, operator: >=, value: 0.5}
+  # - {name: max_MAC, metric: Cref, operator: <=, value: 1.5}
+
+
+  # ----------------------------------------------------------
+  # 2. AERODYNAMIC CONSTRAINTS
+  # Evaluated using AVL.
+  # ----------------------------------------------------------
+
+  # Minimum lift coefficient
+  # - {name: min_CL, metric: CL, operator: >=, value: 0.4}
+
+  # Maximum lift coefficient
+  # NOTE: Not equivalent to a validated stall constraint.
+  # - {name: max_CL, metric: CL, operator: <=, value: 1.0}
+
+  # Maximum induced drag coefficient
+  # - {name: max_CDi, metric: CDi, operator: <=, value: 0.02}
+
+  # Minimum span efficiency
+  # - {name: min_efficiency, metric: e, operator: >=, value: 0.85}
+
+  # Minimum lift-to-drag ratio (AVL only)
+  # - {name: min_LD, metric: LD, operator: >=, value: 40.0}
+
+  # Pitching moment coefficient
+  # - {name: pitch_trim, metric: Cm, operator: ==, value: 0.0}
+
+  # Rolling moment coefficient
+  # - {name: roll_trim, metric: Cl, operator: ==, value: 0.0}
+
+  # Yawing moment coefficient
+  # - {name: yaw_trim, metric: Cn, operator: ==, value: 0.0}
+
+
+  # ----------------------------------------------------------
+  # 3. DIMENSIONAL FORCE CONSTRAINTS
+  # Require density, velocity and reference area.
+  # ----------------------------------------------------------
+
+  # Minimum lift force [N]
+  # - {name: min_lift, metric: lift, operator: >=, value: 18000.0}
+
+  # Lift equilibrium for a prescribed weight (total aircraft) [N]
+  - {name: lift_equilibrium, metric: lift, operator: ==, value: 3000.0}
+
+  # Maximum drag force [N]
+  # - {name: max_drag, metric: drag, operator: <=, value: 1000.0}
+
+
+  # ----------------------------------------------------------
+  # 4. SPANWISE LOADING CONSTRAINTS
+  # Derived from AVL strip-force distributions.
+  # ----------------------------------------------------------
+
+  # Maximum root bending moment [N m]
+  # - {name: max_root_bending, metric: root_bending_moment,
+  #     operator: <=, value: 25000.0}
+
