@@ -31,19 +31,24 @@ flight_condition:
   # Enable ONE independent trim constraint at a time.
   # ----------------------------------------------------------
   trim:
-    enabled: false
+    enabled: true
 
-    # Option A: Solve alpha for specified CL (ACTIVE config)
+    # Option A: Solve alpha for required dimensional lift
     variable: alpha
-    constraint: CL
-    target: 0.5
+    constraint: Lift
+    target: 2943.0       # Required total lift [N]
 
-    # Option B: Solve control deflection for specified Cm
+    # Option B: Solve alpha for specified CL
+    # variable: alpha
+    # constraint: CL
+    # target: 0.5
+
+    # Option C: Solve control deflection for zero Cm
     # variable: flap
     # constraint: Cm
     # target: 0.0
 
-    # Option C: Solve aileron for specified rolling moment
+    # Option D: Solve aileron for zero rolling moment
     # variable: aileron
     # constraint: Cl
     # target: 0.0

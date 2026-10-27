@@ -47,6 +47,12 @@ constraints:
   # Evaluated using AVL.
   # ----------------------------------------------------------
 
+  # Maximum cruise angle of attack [deg]
+  - {name: max_alpha, metric: alpha_cruise, operator: <=, value: 6.0}
+
+  # Minimum cruise angle of attack [deg]
+  - {name: min_alpha, metric: alpha_cruise, operator: >=, value: 0.0}
+
   # Minimum lift coefficient
   # - {name: min_CL, metric: CL, operator: >=, value: 0.4}
 
@@ -82,7 +88,7 @@ constraints:
   # - {name: min_lift, metric: lift, operator: >=, value: 18000.0}
 
   # Lift equilibrium for a prescribed weight (total aircraft) [N]
-  - {name: lift_equilibrium, metric: lift, operator: ==, value: 3000.0}
+  # - {name: lift_equilibrium, metric: lift, operator: ==, value: 3000.0}
 
   # Maximum drag force [N]
   # - {name: max_drag, metric: drag, operator: <=, value: 1000.0}

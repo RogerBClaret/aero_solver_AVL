@@ -171,7 +171,9 @@ def main():
 
     header("5. FLIGHT CONDITION")
 
-    case = build_case(flight_data, controls_data)
+    case = build_case(flight_data,
+                    controls_data,
+                    geometry_data,)
 
     velocity = float(flight["velocity"])
     density = float(flight["density"])
@@ -246,11 +248,13 @@ def main():
     lift = q * ref["Sref"] * cl
     drag = q * ref["Sref"] * cd
     induced_drag = q * ref["Sref"] * cdi
+    alpha = float(totals["Alpha"])
 
     print(f"\nCL:                 {cl:10.6f}")
     print(f"CD total (AVL):     {cd:10.6f}")
     print(f"CD induced:         {cdi:10.6f}")
     print(f"Cm:                 {cm:10.6f}")
+    print(f"Alpha (trimmed):    {alpha:10.4f} deg")
 
     print(f"\nLift:               {lift:10.2f} N")
     print(f"Drag (AVL):         {drag:10.2f} N")
@@ -298,7 +302,10 @@ def main_short():
     geometry = build_geometry(
         geometry_data, mesh_data, controls_data
     )
-    case = build_case(flight_data, controls_data)
+
+    case = build_case(flight_data,
+                    controls_data,
+                    geometry_data,)
 
     # 2. Run AVL.
     session = Session(geometry=geometry, cases=[case])
@@ -319,6 +326,7 @@ def main_short():
     CDi = totals["CDind"]
     Cm = totals["Cmtot"]
     e = totals["e"]
+    alpha = float(totals["Alpha"])
 
     # 4. Calculate dimensional aerodynamic forces.
     flight = flight_data["flight_condition"]
@@ -343,7 +351,8 @@ def main_short():
     print(f"Cm          : {Cm:10.6f}")
     print(f"Span eff. e : {e:10.4f}")
     print(f"L/D (AVL)   : {CL/CD:10.3f}")
-
+    print(f"Alpha (trimmed):    {alpha:10.4f} deg")
+    
     print("-" * 45)
     print(f"Sref        : {S:10.3f} m²")
     print(f"Bref        : {totals['Bref']:10.3f} m")

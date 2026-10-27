@@ -19,7 +19,7 @@ surfaces:
     # --------------------------------------------------------
     planform:
       semi_span: 4.0           # b/2 [m]
-      root_chord: 1.0          # [m]
+      root_chord: 0.5          # [m]
       sweep_le: 20.556         # LE sweep [deg]
       dihedral: 7.125          # Angle above horizontal [deg]
 
