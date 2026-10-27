@@ -16,7 +16,7 @@ design_variables:
   # ----------------------------------------------------------
 
   # Wing length (semi-span) [m]
-  - {name: semi_span, bounds: [2.0, 8.0]}
+  - {name: semi_span, bounds:  [1.0, 4.0]}
 
   # Root chord [m]
   - {name: root_chord, bounds: [0.2, 2.0]}
@@ -76,7 +76,7 @@ design_variables:
   # ----------------------------------------------------------
 
   # Angle of attack [deg]
-  - {name: alpha, bounds: [-5.0, 15.0]}
+  # - {name: alpha, bounds: [-5.0, 15.0]}
 
   # Flight velocity [m/s]
   # - {name: velocity, bounds: [50.0, 200.0]}

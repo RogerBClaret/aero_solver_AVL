@@ -25,7 +25,7 @@ constraints:
   - {name: max_span, metric: Bref, operator: <=, value: 8.0}
 
   # Minimum wing area [m²]
-  # - {name: min_area, metric: Sref, operator: >=, value: 4.0}
+  # - {name: min_area, metric: Sref, operator: ">=", value: 4.0}
 
   # Maximum wing area [m²]
   # - {name: max_area, metric: Sref, operator: <=, value: 10.0}
@@ -34,11 +34,11 @@ constraints:
   # - {name: fixed_area, metric: Sref, operator: ==, value: 6.0}
 
   # Aspect ratio
-  # - {name: min_AR, metric: AR, operator: >=, value: 8.0}
+  # - {name: min_AR, metric: AR, operator: ">=", value: 8.0}
   # - {name: max_AR, metric: AR, operator: <=, value: 18.0}
 
   # Mean aerodynamic chord [m]
-  # - {name: min_MAC, metric: Cref, operator: >=, value: 0.5}
+  # - {name: min_MAC, metric: Cref, operator: ">=", value: 0.5}
   # - {name: max_MAC, metric: Cref, operator: <=, value: 1.5}
 
 
@@ -51,10 +51,10 @@ constraints:
   - {name: max_alpha, metric: alpha_cruise, operator: <=, value: 6.0}
 
   # Minimum cruise angle of attack [deg]
-  - {name: min_alpha, metric: alpha_cruise, operator: >=, value: 0.0}
+  - {name: min_alpha, metric: alpha_cruise, operator: ">=", value: 0.0}
 
   # Minimum lift coefficient
-  # - {name: min_CL, metric: CL, operator: >=, value: 0.4}
+  # - {name: min_CL, metric: CL, operator: ">=", value: 0.4}
 
   # Maximum lift coefficient
   # NOTE: Not equivalent to a validated stall constraint.
@@ -64,10 +64,10 @@ constraints:
   # - {name: max_CDi, metric: CDi, operator: <=, value: 0.02}
 
   # Minimum span efficiency
-  # - {name: min_efficiency, metric: e, operator: >=, value: 0.85}
+  # - {name: min_efficiency, metric: e, operator: ">=", value: 0.85}
 
   # Minimum lift-to-drag ratio (AVL only)
-  # - {name: min_LD, metric: LD, operator: >=, value: 40.0}
+  # - {name: min_LD, metric: LD, operator: ">=", value: 40.0}
 
   # Pitching moment coefficient
   # - {name: pitch_trim, metric: Cm, operator: ==, value: 0.0}
@@ -85,7 +85,7 @@ constraints:
   # ----------------------------------------------------------
 
   # Minimum lift force [N]
-  # - {name: min_lift, metric: lift, operator: >=, value: 18000.0}
+  # - {name: min_lift, metric: lift, operator: ">=", value: 18000.0}
 
   # Lift equilibrium for a prescribed weight (total aircraft) [N]
   # - {name: lift_equilibrium, metric: lift, operator: ==, value: 3000.0}

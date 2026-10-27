@@ -68,8 +68,8 @@ surfaces:
     # --------------------------------------------------------
     #
     # sections:
-    #   - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0
-    #   - {section_id: 1, y: 0.25, chord: 0.85, twist: -0.5}
-    #   - {section_id: 2, y: 0.50, chord: 0.70, twist: -1.0}
-    #   - {section_id: 3, y: 0.75, chord: 0.60, twist: -1.5}
-    #   - {section_id: 4, y: 1.00, chord: 0.50, twist: -2.0}
+      # - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0}
+      # - {section_id: 1, y: 0.25, chord: 0.3, twist: -0.5}
+      # - {section_id: 2, y: 1.0, chord: 0.2, twist: -1.0}
+
+
