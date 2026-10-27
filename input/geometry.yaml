@@ -1,24 +1,75 @@
-# Coordinates in metres; angles in degrees.
-# Symmetric wing: sections define the right semi-span (y >= 0).
+
+# ============================================================
+# WING GEOMETRY
+# Coordinate system:
+#   X: positive aft
+#   Y: positive toward the right wing
+#   Z: positive upward
+# Angles: degrees | Lengths: metres
+# ============================================================
+
 geometry:
-  name: main_wing
-  symmetric: false
-  reference:
-    area: 15.0         # m^2, full wing
-    span: 10.0         # m, full wing
-    chord: 1.555556    # m, mean aerodynamic chord
-    point: [0.5, 0.0, 0.0]  # m, moment reference point
+  name: DISRUPT_model_1
 
 surfaces:
   - name: wing
-  #   airfoil:
-  #     type: flat_plate
+
+    # --------------------------------------------------------
+    # DIMENSIONAL WING PARAMETERS
+    # --------------------------------------------------------
+    planform:
+      semi_span: 4.0           # b/2 [m]
+      root_chord: 1.0          # [m]
+      sweep_le: 20.556         # LE sweep [deg]
+      dihedral: 7.125          # Angle above horizontal [deg]
+
+    # --------------------------------------------------------
+    # AIRFOIL DEFINITION
+    # Select ONE option.
+    # --------------------------------------------------------
+
+    # Option A: External airfoil coordinates (ACTIVE)
     airfoil:
       type: file
-      path: "input/airfoils/naca653218.dat"  
+      path: "input/airfoils/naca653218.dat"
+
+    # Option B: NACA 4-digit airfoil
     # airfoil:
     #   type: naca
     #   code: "0012"
+
+    # Option C: Flat plate (useful for idealized VLM tests)
+    # airfoil:
+    #   type: flat_plate
+
+    # --------------------------------------------------------
+    # SECTION DEFINITION (NONDIMENSIONAL)
+    #
+    # y: normalized semi-span location [0,1]
+    # chord: local chord / root chord
+    # twist: local geometric twist [deg]
+    #
+    # Dimensional coordinates:
+    # Y_LE = semi_span * y
+    # X_LE = Y_LE * tan(sweep_le)
+    # Z_LE = Y_LE * tan(dihedral)
+    # C    = root_chord * chord
+    #
+    # Sections must be ordered from root to tip.
+    # --------------------------------------------------------
+
     sections:
-      - {y: 0.0, x_le: 0.0, z_le: 0.0, chord: 2.0, twist: 0.0}
-      - {y: 5.0, x_le: 1.5, z_le: 0.5, chord: 1.0, twist: -2.0}
+      - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0}
+      - {section_id: 1, y: 1.0, chord: 0.5, twist: -2.0}
+
+    # --------------------------------------------------------
+    # EXAMPLE: MULTI-SECTION WING
+    # Intermediate sections allow variable chord/twist.
+    # --------------------------------------------------------
+    #
+    # sections:
+    #   - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0
+    #   - {section_id: 1, y: 0.25, chord: 0.85, twist: -0.5}
+    #   - {section_id: 2, y: 0.50, chord: 0.70, twist: -1.0}
+    #   - {section_id: 3, y: 0.75, chord: 0.60, twist: -1.5}
+    #   - {section_id: 4, y: 1.00, chord: 0.50, twist: -2.0}

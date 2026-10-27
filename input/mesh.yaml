@@ -1,6 +1,18 @@
-# Panel counts apply to the modeled right semi-span; AVL mirrors it.
+
+# ============================================================
+# AVL DISCRETIZATION
+# Panel counts refer to the modeled right semi-wing.
+# ============================================================
+
 mesh:
   chordwise_panels: 10
   spanwise_panels: 24
-  chord_spacing: uniform   # uniform | cosine
-  span_spacing: uniform    # uniform | cosine
+
+  # Chordwise distribution
+  chord_spacing: cosine
+  # chord_spacing: uniform
+
+  # Spanwise distribution
+  span_spacing: cosine
+  # span_spacing: uniform
+

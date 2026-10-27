@@ -5,8 +5,8 @@ design_variables:
     tip_chord:
       bounds: [0.5, 1.5]
 
-    tip_twist:
-      bounds: [-6.0, 2.0]
+    # tip_twist:
+    #   bounds: [-6.0, 2.0]
 
   controls:
     aileron:

@@ -1,17 +1,51 @@
-# Span locations are fractions of the semi-span (root=0, tip=1).
-# Hinge positions are fractions of local chord measured from leading edge.
-# Controls require extra wing sections at their span boundaries.
-control_surfaces:
-  - name: inboard
-    surface: wing
-    span: {start: 0.15, end: 0.37}
-    hinge: {root_chord_fraction: 0.75, tip_chord_fraction: 0.75}
-    gain: 1.0
-    duplicate_sign: 1.0  # same deflection on both sides
 
+# ============================================================
+# CONTROL SURFACES
+#
+# Span coordinates normalized by wing semi-span:
+#   eta = 0: root
+#   eta = 1: tip
+#
+# Hinge locations measured from local leading edge:
+#   0.0: LE
+#   1.0: TE
+# ============================================================
+
+control_surfaces:
+
+  # ----------------------------------------------------------
+  # INBOARD CONTROL (e.g., flap)
+  # ----------------------------------------------------------
+  - name: flap
+    surface: wing
+
+    span:
+      start: 0.15
+      end: 0.40
+
+    hinge:
+      root_chord_fraction: 0.75
+      tip_chord_fraction: 0.75
+
+    gain: 1.0 # Scales control deflection (1.0 = 1:1)
+    duplicate_sign: 1.0  # Symmetric deflection
+    # duplicate_sign: -1.0  # Antisymmetric deflection
+
+  # ----------------------------------------------------------
+  # OUTBOARD AILERON
+  # ----------------------------------------------------------
   - name: aileron
     surface: wing
-    span: {start: 0.75, end: 0.95}
-    hinge: {root_chord_fraction: 0.75, tip_chord_fraction: 0.75}
-    gain: 1.0
-    duplicate_sign: -1.0 # opposite deflections left/right
+
+    span:
+      start: 0.75
+      end: 0.95
+
+    hinge:
+      root_chord_fraction: 0.75
+      tip_chord_fraction: 0.75
+
+    gain: 1.0  # Scales control deflection (1.0 = 1:1)
+    # duplicate_sign: 1.0  # Symmetric deflection
+    duplicate_sign: -1.0  # Antisymmetric deflection
+

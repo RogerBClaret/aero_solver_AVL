@@ -1,20 +1,49 @@
 
+# ============================================================
+# FLIGHT CONDITION
+# SI units, angles in degrees
+# ============================================================
+
 flight_condition:
 
-  velocity: 100.0      # m/s
-  density: 1.225        # kg/m³
+  # ----------------------------------------------------------
+  # FREESTREAM CONDITIONS
+  # ----------------------------------------------------------
+  velocity: 100.0    # True airspeed [m/s]
+  density: 1.225     # Air density [kg/m^3]
 
-  # Fixed operating conditions
-  alpha: 5.0           # degrees
+  # ----------------------------------------------------------
+  # FIXED ANGLE OF ATTACK
+  # Used when trim.enabled = false
+  # ----------------------------------------------------------
+  alpha: 5.0         # [deg]
 
+  # ----------------------------------------------------------
+  # CONTROL DEFLECTIONS
+  # ----------------------------------------------------------
   controls:
-    inboard: 0.0       # degrees
-    aileron: 0.0       # degrees
+    # Use the names defined in the control_surfaces.yaml file
+    flap: 0.0     # [deg]
+    aileron: 0.0     # [deg]
 
-  # Optional AVL trim
-  # Set enabled: true for ONE trim condition.
+  # ----------------------------------------------------------
+  # AVL TRIM / OPERATING POINT
+  # Enable ONE independent trim constraint at a time.
+  # ----------------------------------------------------------
   trim:
     enabled: false
-    variable: alpha     # alpha | inboard | aileron
-    constraint: CL      # e.g. CL, Cm, Cl
+
+    # Option A: Solve alpha for specified CL (ACTIVE config)
+    variable: alpha
+    constraint: CL
     target: 0.5
+
+    # Option B: Solve control deflection for specified Cm
+    # variable: flap
+    # constraint: Cm
+    # target: 0.0
+
+    # Option C: Solve aileron for specified rolling moment
+    # variable: aileron
+    # constraint: Cl
+    # target: 0.0
