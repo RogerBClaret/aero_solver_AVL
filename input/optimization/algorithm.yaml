@@ -15,28 +15,28 @@
 algorithm:
 
   # ----------------------------------------------------------
-  # 1. COBYLA (ACTIVE)
+  # 1. COBYLA 
   # Constrained Optimization By Linear Approximation
   # ----------------------------------------------------------
 
-  method: COBYLA
+  # method: COBYLA
 
-  maxiter: 500       # Maximum function evaluations
-  rhobeg: 0.5        # Initial trust-region radius
-  tol: 1.0e-5        # Final trust-region radius
-  catol: 1.0e-4      # Constraint violation tolerance
-  disp: false        # Print solver diagnostics
+  # maxiter: 500       # Maximum function evaluations
+  # rhobeg: 0.5        # Initial trust-region radius
+  # tol: 1.0e-5        # Final trust-region radius
+  # catol: 1.0e-4      # Constraint violation tolerance
+  # disp: false        # Print solver diagnostics
 
 
   # ----------------------------------------------------------
-  # 2. DIFFERENTIAL EVOLUTION (INACTIVE)
+  # 2. DIFFERENTIAL EVOLUTION
   # Global, population-based optimization
   # ----------------------------------------------------------
 
   # method: DE
 
-  # maxiter: 100         # Maximum number of generations
-  # popsize: 10          # Population multiplier
+  # maxiter: 100           # Maximum number of generations
+  # popsize: 5            # Population multiplier
   # strategy: best1bin   # Evolution strategy
   # mutation: [0.5, 1.0] # Differential weight range
   # recombination: 0.7   # Crossover probability
@@ -44,4 +44,32 @@ algorithm:
   # atol: 0.0            # Absolute convergence tolerance
   # polish: false        # Disable final local optimization
   # seed: 42             # Reproducibility
-  # disp: false          # Print solver diagnostics
+  # disp: true          # Print solver diagnostics
+
+
+  # ----------------------------------------------------------
+  # 3. CMA_ES
+  # Global, population-based optimization
+  # ----------------------------------------------------------
+
+
+algorithm:
+  method: CMA_ES
+
+  # Number of generations and candidates per generation
+  maxiter: 100
+  popsize: 10
+
+  # Initial search standard deviation,
+  # expressed in normalized design-variable units
+  sigma0: 0.4
+
+  # Reproducibility
+  seed: 42
+
+  # Numerical constraint tolerances
+  equality_tol: 1.0e-4
+  catol: 1.0e-6
+
+  # Diagnostics
+  disp: true

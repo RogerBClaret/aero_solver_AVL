@@ -10,14 +10,15 @@ No optimization algorithm is executed.
 Tests configuration, AVL evaluation, constraint handling,
 caching, design perturbations and baseline immutability.
 """
+# ------------------------------------------------------------
+# Project imports
+# ------------------------------------------------------------
 
 import sys
 from pathlib import Path
-
 import numpy as np
 
-# Allow direct execution from tests/.
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path.cwd()
 sys.path.insert(0, str(ROOT))
 
 from src import load_inputs

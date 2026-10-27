@@ -20,7 +20,7 @@ surfaces:
     planform:
       semi_span: 4.0           # b/2 [m]
       root_chord: 0.5          # [m]
-      sweep_le: 20.556         # LE sweep [deg]
+      sweep_le: 10         # LE sweep [deg]
       dihedral: 7.125          # Angle above horizontal [deg]
 
     # --------------------------------------------------------
@@ -58,18 +58,18 @@ surfaces:
     # Sections must be ordered from root to tip.
     # --------------------------------------------------------
 
-    sections:
-      - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0}
-      - {section_id: 1, y: 1.0, chord: 0.5, twist: -2.0}
+    # sections:
+    #   - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0}
+    #   - {section_id: 1, y: 1.0, chord: 0.5, twist: -2.0}
 
     # --------------------------------------------------------
     # EXAMPLE: MULTI-SECTION WING
     # Intermediate sections allow variable chord/twist.
     # --------------------------------------------------------
     #
-    # sections:
-      # - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0}
-      # - {section_id: 1, y: 0.25, chord: 0.3, twist: -0.5}
-      # - {section_id: 2, y: 1.0, chord: 0.2, twist: -1.0}
+    sections:
+      - {section_id: 0, y: 0.0, chord: 1.0, twist:  0.0}
+      - {section_id: 1, y: 0.25, chord: 0.4, twist: -0.5}
+      - {section_id: 2, y: 1.0, chord: 0.4, twist: -1.0}
 
 
