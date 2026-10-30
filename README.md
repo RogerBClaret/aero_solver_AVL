@@ -131,7 +131,7 @@ python tests/02_test_problem_definition.py
 python tests/03_test_optimizer.py
 ```
 
-- `01_test_run_model.py` checks the baseline AVL model and related plots.
+- `01_test_run_model.py` solves the AVL model and related plots.
 - `02_test_problem_definition.py` checks the optimization configuration, baseline evaluation, cache, perturbation response, and input immutability.
 - `03_test_optimizer.py` runs the selected optimizer, reports the best feasible design, plots the recorded optimization history, and rebuilds the final aircraft for AVL-based visualization.
 
